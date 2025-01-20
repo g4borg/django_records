@@ -1,0 +1,19 @@
+[project]
+name = "django-records"
+version = "0.4.0"
+description = "Django structured querysets"
+readme = "README.md"
+authors = [{ name = "Gabor Körber", email = "gab@g4b.org" }]
+requires-python = ">=3.12"
+dependencies = ["django>=4"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project.optional-dependencies]
+pydantic = ["pydantic>=2"]
+
+[tool.uv.workspace]
+members = []
+exclude = ["examples"]
