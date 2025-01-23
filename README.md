@@ -8,6 +8,19 @@ Main target is support of dataclass and pydantic, and allow building readonly re
 
 A more in-depth explanation, why you would use this module is described [in the documentation](./docs/clean_architecture.md)
 
+Project Home:
+
+- https://git.g4b.org/g4borg/django_records
+- https://github.com/g4borg/django_records (copy)
+
+## How to install
+
+- First you have to add django_records to your projects' requirements (TODO: update this once packaged)
+- For any model you want to be able to use records() on, you have to override the default Manager by creating it from the RecordQuerySet
+- Mixins are available
+- I suggest to study the code in records.py, as it is not much
+- TODO: More in depth and less painful installation instructions.
+
 ## The .records() queryset function
 
 > Changed since 0.3: records is not supposed take an optional first parameter as record target, instead use record_into(), however support for it is kept.
