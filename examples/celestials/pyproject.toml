@@ -1,0 +1,10 @@
+[project]
+name = "celestials"
+version = "0.1.0"
+description = "Celestial Test App"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = ["django>=4", "django-records", "factory_boy"]
+
+[tool.uv.sources]
+django-records = { path = "../.." }
