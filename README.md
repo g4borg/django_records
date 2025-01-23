@@ -6,6 +6,8 @@ An example is to create dataclass instances as entities for a clean architecture
 
 Main target is support of dataclass and pydantic, and allow building readonly representations of the data.
 
+A more in-depth explanation, why you would use this module is described [in the documentation](./docs/clean_architecture.md)
+
 ## The .records() queryset function
 
 > Changed since 0.3: records is not supposed take an optional first parameter as record target, instead use record_into(), however support for it is kept.
@@ -68,11 +70,21 @@ Just like Django Expressions can be used to annotate keys in the model that are 
 - `Skip` allows you to skip a field. This is needed, as records() would include all fields on a dataclass, without knowing if it is optional, and helpful if you rewrite the fields with a PostProcess.
 - `PostProcess` allows you to call a function as a callback at creation - if the callback returns anything else than None, it is used as initializer for the production of the object.
 
-## Testing
+## Testing & Developing
+
+### Install prerequisites
+
+If you have `just` installed, you can use
+
+`just install`
+
+to install uv, python, and build a virtual env.
+
+> Note: Windows users should install uv manually first.
 
 ### Built-In Tests
 
-...
+`just test` should run the unit tests.
 
 ### Integration Test: Examples Project
 
