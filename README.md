@@ -77,8 +77,8 @@ Just like Django Expressions can be used to annotate keys in the model that are 
 > The keys used in the kwargs to records() primarily represent the keys passed to the dataclass.
 
 - `FixedValue` simply carries some data and inserts it into every model. e.g. `.records(data=FixedValue(1))` will set the field `data` always to 1.
-- `MutValue` allows to use a callable as argument, which gets called when setting the field on the model. e.g. `.records(data=MutValue(lambda entry: 'x' in entry))`
-- `MutValueNotNone` same as `MutValue` but only applies the callable if the database value is not None (shortcut).
+- `MappedValue` allows to use a callable as argument, which gets called when setting the field on the model. e.g. `.records(data=MappedValue(lambda entry: 'x' in entry))`
+- `MappedOptionalValue` same as `MappedValue` but only applies the callable if the database value is not None (shortcut).
 - `Ref` uses a different key to retrieve the data from values, and may apply an Adjunct to it. This probably is the most used Adjunct in real life examples.
 - `Skip` allows you to skip a field. This is needed, as records() would include all fields on a dataclass, without knowing if it is optional, and helpful if you rewrite the fields with a PostProcess.
 - `PostProcess` allows you to call a function as a callback at creation - if the callback returns anything else than None, it is used as initializer for the production of the object.

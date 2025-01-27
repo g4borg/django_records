@@ -50,7 +50,7 @@ class FixedValue(Adjunct):
         return self.value
 
 
-class MutValue(Adjunct):
+class MappedValue(Adjunct):
     """adjunct value that returns a field value with a callback.
         currently supports only 1 parameter (dbdata).
     """
@@ -63,8 +63,8 @@ class MutValue(Adjunct):
         if self.callback:
             return self.callback(dbdata)
 
-class MutValueNotNone(MutValue):
-    """MutValue that only calls the callback if the dbdata is not None
+class MappedOptionalValue(MappedValue):
+    """MappedValue that only calls the callback if the dbdata is not None
     (convenience function)
     """
     def resolve(self, model, dbdata):
@@ -85,7 +85,7 @@ class Ref(Adjunct):
     def __init__(self, key, adjunct: Adjunct | Callable | None = None):
         match adjunct:
             case Adjunct(adj): self.adjunct = adjunct
-            case callback if callable(callback): self.adjunct = MutValueNotNone(callback)
+            case callback if callable(callback): self.adjunct = MappedOptionalValue(callback)
             case _: self.adjunct = None
         self.key = key
 

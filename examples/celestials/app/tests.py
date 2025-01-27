@@ -6,7 +6,7 @@ from django.db.models import F
 from django.test.testcases import TestCase
 from django.test.utils import tag
 
-from django_records.adjuncts import MutValue, FixedValue, PostProcess
+from django_records.adjuncts import MappedValue, FixedValue, PostProcess
 from django_records.handlers import RecordDictHandler
 
 
@@ -58,7 +58,7 @@ class TestQueryBuilder(TestCase):
         self.assertEqual(len(entities), len(self.planets))
         self.assertIsInstance(entities.first(), dict)
 
-    def test_MutValue(self):
+    def test_MappedValue(self):
 
         # this tests whether our own celestial type or the celestial type of what we orbit is correct for being a moon. parameter is a dictionary.
         is_moon = lambda entry: True if 5 > (entry.get('celestial_type') or 0) > 1 and 5 > (entry.get('orbits_type') or 0) > 1 else False
@@ -67,8 +67,8 @@ class TestQueryBuilder(TestCase):
                                     'celestial_type',  #  we include the key celestial_type into our query.
                                     id=FixedValue(None),  # we blank out id to test FixedValue working.
                                     orbits_name=F('orbits__name'),  # we set our custom orbits_name to a related field value
-                                    orbits_type=F('orbits__celestial_type'),  # our MutValue needs this data.
-                                    is_moon=MutValue(is_moon))  # MutValue over result
+                                    orbits_type=F('orbits__celestial_type'),  # our MappedValue needs this data.
+                                    is_moon=MappedValue(is_moon))  # MappedValue over result
 
         self.assertEqual(len(entities), len(self.celestials))
 

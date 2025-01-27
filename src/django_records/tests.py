@@ -4,7 +4,7 @@ from unittest import mock, TestCase
 from django.db.models import F
 
 from . import handlers
-from .adjuncts import MutValue as Mut, FixedValue as Val, Skip, PostProcess, Ref
+from .adjuncts import MappedValue as Mut, FixedValue as Val, Skip, PostProcess, Ref
 from .records import RecordIterable, RecordQuerySetMixin
 
 

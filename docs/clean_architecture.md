@@ -26,14 +26,28 @@ Once you are ready to isolate the code even further, all you will have to do, is
 
 ## Where the semi-active record pattern of Django will influence this
 
-Your new repository facade probably has to give you a save(), create(), update(), delete() and refresh_from_db() alternative for your entities (well refresh might be just getting the object again, and the mutators might even go DDD style into a separate facade...)
+Your new repository facade probably has to give you a `save()`, `create()`, `update()`, `delete()` and `refresh_from_db()` alternative for your entities (well refresh might be just getting the object again, and the mutators might even go DDD style into a separate "service" facade...)
 
 > I am not advocating, that you should use django like this, but if you do, django-records was designed to help out.
-
-As with most of the non active record pattern libraries, you will quickly see, that using entities often changes save() calls to update() calls.
 
 ## Some benefits
 
 For one, as long as data transfer objects have similar fields, transforming them becomes easy. you can also very simply reduce calls to only use the fields of your dataclass.
 
 Additionally, as `records()` itself produces an Iterator, any function like `first()` or `last()` are supported.
+
+This really makes it easy to put in entities as an afterthought, and also keep the code close to a "djangoesque" solution.
+
+## Some curiosities
+
+As with most of the non active record pattern libraries, you will quickly see, that using entities often changes `save()`'s "insert" calls to `update()` calls. That is because you would have to fetch the model first, to call `save()` on it.
+
+## Some downsides
+
+The first one is, that django does not allow to simply add new variables to the queryset, as it would get lost by cloning, so you have to override `_clone()` itself, if you want to carry your own build data across the chain. For the user of this library it means, that you have to design your own manager class. That is actually not a real downside, as from experience, I would advocate you do that anyway.
+
+A major disadvantage was in practice also, that understanding adjuncts requires everyone to learn a new tool, and it requires sometimes, especially in complex references between models, to carry data in a field during the queryset, that is not used to instantiate the final object, but to be reused by another adjunct or a postprocess call, so you also have to teach exactly what you are doing (which is easier learned, if everyone writes their own values-to-dataclass converter), to understand the query fully.
+
+The inline nature of packing lots of lazy resolvers (effectively becoming side effects) into the query may however not scare functional programmers that much. Originally I designed it to use lambdas inline for small data manipulation. This might not fly well if you use tools like Sonar and fully follow their guidelines, which try to guide you more to explicitness, and may be the spirit of pythonicism, however personally, I rather have a concise queryset, and i have no issues reading a small lambda, and rather dislike if i have to scroll around to see a one-line function defined elsewhere.
+
+I think, one should not shy away from writing explicit functions to create really complex transformations, adjuncts were supposed to solve small differences between model and value object in mind.

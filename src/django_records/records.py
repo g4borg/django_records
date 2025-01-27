@@ -81,7 +81,9 @@ class RecordQuerySetMixin:
             # @deprecate: we might remove this
             logger.warning("Defining the target class in args might be soon deprecated: %s", handler)
         else:
-            handler = getattr(self, '_record', getattr(self, '_default_record', getattr(self.model, '_default_record', None)))
+            handler = getattr(self, '_record', 
+                              getattr(self, '_default_record', 
+                                      getattr(self.model, '_default_record', None)))
         if not handler:
             raise RecordClassDefinitionError("Trying records() on a Queryset without destination class.")
 
